@@ -1,7 +1,5 @@
 import type { AWS } from '@serverless/typescript';
 
-import hello from '@functions/hello';
-
 const serverlessConfiguration: AWS = {
   service: 'serverless-filestore',
   frameworkVersion: '2',
@@ -24,8 +22,32 @@ const serverlessConfiguration: AWS = {
     },
     lambdaHashingVersion: '20201221',
   },
-  // import the function via paths
-  functions: { hello },
+  
+  functions: {
+    upload: {
+      handler: 'index.upload',
+      events: [
+        {
+          httpApi: {
+            method: 'post',
+            path: '/files/upload'
+          }
+        }
+      ]
+    },
+    files: {
+      handler: 'index.files',
+      events: [
+        {
+          httpApi: {
+            method: 'get',
+            path: '/files'
+  
+          }
+        }
+      ]
+    }
+  },
 };
 
 module.exports = serverlessConfiguration;
