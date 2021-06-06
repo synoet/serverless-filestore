@@ -21,6 +21,15 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
     },
     lambdaHashingVersion: '20201221',
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: [
+          '*'
+        ],
+        Resource: ['*']
+      }
+    ]
   },
   
   functions: {
@@ -59,6 +68,45 @@ const serverlessConfiguration: AWS = {
       ]
     }
   },
+  resources: {
+    Resources: {
+      FileTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          AttributeDefinitions: [
+            {
+              AttributeName: 'id',
+              AttributeType: 'S'
+            },
+            {
+              AttributeName: 'path',
+              AttributeType: 'S'
+            },
+            {
+              AttributeName: 'type',
+              AttributeType: 'S'
+            },
+            {
+              AttributeName: 'size',
+              AttributeType: 'N'
+            },
+            {
+              AttributeName: 'content',
+              AttributeType: 'S'
+            }
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'id',
+              KeyType: 'HASH'
+            }
+          ],
+          BillingMode: 'PAY_PER_REQUEST',
+          TableName: 'TrooperTable'
+        }
+      }
+    }
+  }
 };
 
 module.exports = serverlessConfiguration;
