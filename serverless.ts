@@ -30,7 +30,7 @@ const serverlessConfiguration: AWS = {
         {
           httpApi: {
             method: 'post',
-            path: '/files/upload'
+            path: 'files/upload'
           }
         }
       ]
@@ -43,6 +43,17 @@ const serverlessConfiguration: AWS = {
             method: 'get',
             path: '/files'
   
+          }
+        }
+      ]
+    },
+    download: {
+      handler: 'index.files',
+      events: [
+        {
+          httpApi: {
+            method: 'get',
+            path: 'files/download/{id}'
           }
         }
       ]
