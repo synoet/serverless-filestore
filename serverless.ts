@@ -39,7 +39,7 @@ const serverlessConfiguration: AWS = {
         {
           httpApi: {
             method: 'post',
-            path: 'files/upload'
+            path: '/files/upload'
           }
         }
       ]
@@ -55,22 +55,11 @@ const serverlessConfiguration: AWS = {
           }
         }
       ]
-    },
-    download: {
-      handler: 'index.files',
-      events: [
-        {
-          httpApi: {
-            method: 'get',
-            path: 'files/download/{id}'
-          }
-        }
-      ]
     }
   },
   resources: {
     Resources: {
-      FileTable: {
+      FileTableV3: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
           AttributeDefinitions: [
@@ -79,19 +68,7 @@ const serverlessConfiguration: AWS = {
               AttributeType: 'S'
             },
             {
-              AttributeName: 'path',
-              AttributeType: 'S'
-            },
-            {
-              AttributeName: 'type',
-              AttributeType: 'S'
-            },
-            {
-              AttributeName: 'size',
-              AttributeType: 'N'
-            },
-            {
-              AttributeName: 'content',
+              AttributeName: 'chunk',
               AttributeType: 'S'
             }
           ],
@@ -99,10 +76,14 @@ const serverlessConfiguration: AWS = {
             {
               AttributeName: 'id',
               KeyType: 'HASH'
+            },
+            {
+              AttributeName: 'chunk',
+              KeyType: 'RANGE'
             }
           ],
           BillingMode: 'PAY_PER_REQUEST',
-          TableName: 'TrooperTable'
+          TableName: 'FileTableV3'
         }
       }
     }
